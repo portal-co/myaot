@@ -9,8 +9,8 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/AkihiroSuda/myaot/pkg/iomisc"
-	"github.com/AkihiroSuda/myaot/pkg/signext"
+	"github.com/portal-co/myaot/pkg/iomisc"
+	"github.com/portal-co/myaot/pkg/signext"
 	"github.com/sirupsen/logrus"
 	"gitlab.com/knipegp/vemu/decoder"
 )

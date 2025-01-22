@@ -1,4 +1,4 @@
-module github.com/AkihiroSuda/myaot
+module github.com/portal-co/myaot
 
 go 1.20
 

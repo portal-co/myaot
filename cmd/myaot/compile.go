@@ -6,8 +6,8 @@ import (
 	"os/exec"
 	"path/filepath"
 
-	"github.com/AkihiroSuda/myaot/pkg/ccutil"
-	"github.com/AkihiroSuda/myaot/pkg/compile"
+	"github.com/portal-co/myaot/pkg/ccutil"
+	"github.com/portal-co/myaot/pkg/compile"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 )
