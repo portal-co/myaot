@@ -1,0 +1,23 @@
+load("@rules_go//go:def.bzl", "go_binary", "go_library")
+
+go_library(
+    name = "myaot_lib",
+    srcs = [
+        "compile.go",
+        "main.go",
+    ],
+    importpath = "github.com/AkihiroSuda/myaot/cmd/myaot",
+    visibility = ["//visibility:private"],
+    deps = [
+        "//pkg/ccutil",
+        "//pkg/compile",
+        "@com_github_sirupsen_logrus//:logrus",
+        "@com_github_spf13_cobra//:cobra",
+    ],
+)
+
+go_binary(
+    name = "myaot",
+    embed = [":myaot_lib"],
+    visibility = ["//visibility:public"],
+)

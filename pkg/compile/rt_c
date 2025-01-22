@@ -16,7 +16,9 @@
 #if defined(__APPLE__)
 #include <sys/random.h>
 #endif /* __APPLE__ */
+#if !defined (WASI)
 #include <termios.h>
+#endif
 #include <time.h>
 
 #if !defined(_MA_REG_WIDTH)
@@ -347,6 +349,18 @@ void _ma_ecall(void) {
   errno = 0;
   /* Syscall table: https://jborza.com/post/2021-05-11-riscv-linux-syscalls/ */
   switch (_ma_regs.x[_MA_REG_A7]){
+    case 56:
+        _ma_reg_t fd = _ma_regs.x[_MA_REG_A0];
+        _ma_reg_t filename = _ma_regs.x[_MA_REG_A1];
+        _ma_reg_t flags = _ma_regs.x[_MA_REG_A2];
+        _ma_reg_t mode = _ma_regs.x[_MA_REG_A3];
+        int x = openat(fd, (char*)_ma_translate_ptr(filename),flags,mode);
+        if(x == 0){
+          _ma_regs.x[_MA_REG_A0] = 0;
+        } else {
+          _ma_regs.x[_MA_REG_A0] = -1;
+        }
+        break;
     case 29: /* asmlinkage long sys_ioctl(unsigned int fd, unsigned int cmd, unsigned long arg); */
       {
         /* TODO */
@@ -355,6 +369,7 @@ void _ma_ecall(void) {
         _ma_reg_t arg = _ma_regs.x[_MA_REG_A2];
         switch (cmd) {
           case _MA_TCGETS:
+          #if !defined (WASI)
             {
               struct termios t_host;
               int rc = tcgetattr(fd, &t_host);
@@ -372,6 +387,9 @@ void _ma_ecall(void) {
                 _ma_regs.x[_MA_REG_A0] = -1;
               }
             }
+            #else
+            _ma_regs.x[_MA_REG_A0] = -1;
+            #endif
             break;
           default:
             _ma_regs.x[_MA_REG_A0] = -1;

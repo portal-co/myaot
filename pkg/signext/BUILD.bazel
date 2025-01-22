@@ -1,0 +1,15 @@
+load("@rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "signext",
+    srcs = ["signext.go"],
+    importpath = "github.com/AkihiroSuda/myaot/pkg/signext",
+    visibility = ["//visibility:public"],
+)
+
+go_test(
+    name = "signext_test",
+    srcs = ["signext_test.go"],
+    embed = [":signext"],
+    deps = ["@tools_gotest_v3//assert"],
+)

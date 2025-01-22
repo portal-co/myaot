@@ -1,0 +1,15 @@
+load("@rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "compile",
+    srcs = ["compile.go"],
+    embedsrcs = ["rt_c"],
+    importpath = "github.com/AkihiroSuda/myaot/pkg/compile",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//pkg/iomisc",
+        "//pkg/signext",
+        "@com_github_sirupsen_logrus//:logrus",
+        "@com_gitlab_knipegp_vemu//decoder",
+    ],
+)
